@@ -17,7 +17,7 @@ mjx-container {
 }
 
 .md-typeset strong {
-    color: #ff5722;
+    color: #8d4bbb;
     /* 设置你想要的颜色，比如橙色 */
 }
 
@@ -29,4 +29,9 @@ mjx-container {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+.md-content h1,
+.md-typeset h1 {
+    color: #000000 !important;
 }

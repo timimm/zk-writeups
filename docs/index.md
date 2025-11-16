@@ -1,9 +1,9 @@
-# Welcome to ZK Puzzle Writeups
+# Welcome to zk research room
 
 Hi, I am Tim, 
 
-- pursuing a Master's degree in Applied Cryptography (research on Zero Knowledge Proof and Lattice Analysis)
-- web2/web3/Cryptography Security ethhusiast
+- Blockchain security researcher and cryptography security ethusiast
+- Master major in applied cryptography 
 - CTFer and zkHACKer
 
 Here I will put some writeups during my security learning journey randomly.

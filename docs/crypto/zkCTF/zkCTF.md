@@ -3,6 +3,8 @@ title: Crypto - zkCTF WP
 description: 2024 | CTF | Crypto
 ---
 
+[TOC]
+
 ## Day 1
 
 Puzzles: https://github.com/scalebit/zkCTF-day1

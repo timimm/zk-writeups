@@ -1,11 +1,11 @@
 site_name: ZK Puzzle Writeups
-site_author: Xor0v0
-site_url: https://xor0v0.github.io/ZK-Puzzle-Writeups/
-copyright: Copyright &copy; 2024 - 2030 Xor0v0
+site_author: Tim
+site_url: https://timimm.github.io/zk-writeups/
+copyright: Copyright &copy; 2024 - 2030 Tim
   
 # Repository
-repo_name: 'Xor0v0/ZK-Puzzle-Writeups'
-repo_url: https://github.com/Xor0v0/ZK-Puzzle-Writeups
+repo_name: 'timimm/zk-writeups'
+repo_url: https://github.com/timimm/zk-writeups
 
 nav:
     - 简介:

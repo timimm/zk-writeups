@@ -132,4 +132,4 @@ $$
 
 通过上述观察，这个 puzzle 暗示了 Pedersen Hash 和 BLS 签名的线性特性。只要提供足够多的已知消息及签名，我们便可通过线性组合的方式快速计算任意未知消息的有效签名，体现了签名方案的潜在线性漏洞和需要注意的安全设计要点。
 
-具体代码实现和演示详见：[ZK-Puzzle-Writups](https://github.com/Xor0v0/ZK-Puzzle-Writeups/tree/main/docs/crypto/lets-hash-it-out/code)。
+具体代码实现和演示详见：[ZK-Puzzle-Writups](https://github.com/timimm/zk-writeups/tree/main/docs/crypto/lets-hash-it-out/code)。

@@ -5,15 +5,15 @@ description: 2024 | DreamHack | Crypto | Blockchain
 
 [TOC]
 
-## 0x00 Puzzle Description
+## 1. Puzzle Description
 
 Do you have knowledge about zero-knowledge proofs? You should have some.
 
 > 题目连接：https://dreamhack.io/wargame/challenges/1297
 
-## 0x01 Analysis
+## 2. Analysis
 <details>
-<summary><font color=MediumAquamarine>查看合约核心源代码👀</font></summary>
+<summary><font color=MediumAquamarine>查看合约核心源代码 👀</font></summary>
 
 ```solidity
 contract SafeEscrow {
@@ -68,7 +68,7 @@ contract SafeEscrow {
 因此，我们去查看circuit的逻辑结构。
 
 <details>
-<summary><font color=MediumAquamarine>查看电路源代码👀</font></summary>
+<summary><font color=MediumAquamarine>查看电路源代码 👀</font></summary>
 
 ```go
 type Circuit struct {

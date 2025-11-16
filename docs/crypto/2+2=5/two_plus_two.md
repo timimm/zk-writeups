@@ -196,5 +196,5 @@ jolt 的 R1CS 部分是通用的组件，意味着它适用于每一个 CPU step
 
 在 host program 中打印 output 并生成 proof 即可。
 
-完整代码：见 [code](https://github.com/Xor0v0/ZK-Puzzle-Writeups/tree/main/docs/crypto/2+2=5/code) 文件夹.
+完整代码：见 [code](https://github.com/timimm/zk-writeups/tree/main/docs/crypto/2+2=5/code) 文件夹.
 
