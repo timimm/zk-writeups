@@ -1,0 +1,37 @@
+:root {
+    --md-default-fg-color: #000000 !important;
+    --md-typeset-color: #000000 !important;
+}
+
+/* 标题字体设置为 Montserrat */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    /* 粗体，标题显眼 */
+}
+
+/* 控制MathJax渲染公式的字体和大小 */
+mjx-container {
+    font-size: 100% !important;
+    /* 公式整体放大120% */
+}
+
+.md-typeset strong {
+    color: #8d4bbb;
+    /* 设置你想要的颜色，比如橙色 */
+}
+
+/* code, pre {
+    font-family: 'Fira Code', monospace;
+} */
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.md-content h1,
+.md-typeset h1 {
+    color: #000000 !important;
+}

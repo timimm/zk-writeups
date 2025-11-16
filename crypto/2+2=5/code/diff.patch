@@ -1,0 +1,19 @@
+diff --git a/jolt-core/src/r1cs/jolt_constraints.rs b/jolt-core/src/r1cs/jolt_constraints.rs
+index 5fb0d871..295dce32 100644
+--- a/jolt-core/src/r1cs/jolt_constraints.rs
++++ b/jolt-core/src/r1cs/jolt_constraints.rs
+@@ -289,13 +289,8 @@ impl<F: JoltField> R1CSConstraintBuilder<F> for UniformJoltConstraints {
+ 
+         // if (rd != 0 && update_rd_with_lookup_output == 1) constrain(rd_val == LookupOutput)
+         // if (rd != 0 && is_jump_instr == 1) constrain(rd_val == 4 * PC)
+-        let rd_nonzero_and_lookup_to_rd =
++        let _rd_nonzero_and_lookup_to_rd =
+             cs.allocate_prod(JoltIn::Bytecode_RD, JoltIn::OpFlags_LookupOutToRd);
+-        cs.constrain_eq_conditional(
+-            rd_nonzero_and_lookup_to_rd,
+-            JoltIn::RD_Write,
+-            JoltIn::LookupOutput,
+-        );
+         let rd_nonzero_and_jmp = cs.allocate_prod(JoltIn::Bytecode_RD, JoltIn::OpFlags_IsJmp);
+         let lhs = JoltIn::Bytecode_ELFAddress + (PC_START_ADDRESS - PC_NOOP_SHIFT);
+         let rhs = JoltIn::RD_Write;

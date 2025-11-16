@@ -1,0 +1,1258 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="2021 | ZKHACK | Crypto">
+      
+      
+        <meta name="author" content="Tim">
+      
+      
+        <link rel="canonical" href="https://timimm.github.io/zk-writeups/crypto/group-dynamics/group-dynamics/">
+      
+      
+        <link rel="prev" href="../../safeescrow/">
+      
+      
+        <link rel="next" href="../../2%2B2%3D5/two_plus_two/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Crypto - Group Dynamics - ZK Puzzle Writeups</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap">
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap">
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-puzzle-description" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="ZK Puzzle Writeups" class="md-header__button md-logo" aria-label="ZK Puzzle Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3 1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ZK Puzzle Writeups
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Crypto - Group Dynamics
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/timimm/zk-writeups" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    timimm/zk-writeups
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../.." class="md-tabs__link">
+          
+  
+  
+  简介
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../oven/" class="md-tabs__link">
+          
+  
+  
+  Crypto
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="ZK Puzzle Writeups" class="md-nav__button md-logo" aria-label="ZK Puzzle Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3 1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17z"/></svg>
+
+    </a>
+    ZK Puzzle Writeups
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/timimm/zk-writeups" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    timimm/zk-writeups
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    简介
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    简介
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crypto
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Crypto
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../oven/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Oven
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lets-hash-it-out/lets-hash-it-out/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Let's hash it out
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../safeescrow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SafeEscrow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Group dynamics
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Group dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-puzzle-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Puzzle Description
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-preliminery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Preliminery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Preliminery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chinese-reminder-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chinese Reminder Theorem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groth16-trusted-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Groth16 Trusted Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prime-order-subgroups-and-elliptic-curve-cofactors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prime Order Subgroups and Elliptic Curve Cofactors
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prime Order Subgroups and Elliptic Curve Cofactors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        例子
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pohlig-hellman-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pohlig-Hellman Algorithm
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pohlig-Hellman Algorithm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#babystep-giantstep-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Babystep-Giantstep Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pohlig-hellman-algorithm_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pohlig-Hellman Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Solution
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2%2B2%3D5/two_plus_two/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2+2=5
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zkCTF/zkCTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    zkCTF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-puzzle-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Puzzle Description
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-preliminery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Preliminery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Preliminery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chinese-reminder-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chinese Reminder Theorem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groth16-trusted-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Groth16 Trusted Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prime-order-subgroups-and-elliptic-curve-cofactors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prime Order Subgroups and Elliptic Curve Cofactors
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prime Order Subgroups and Elliptic Curve Cofactors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        例子
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pohlig-hellman-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pohlig-Hellman Algorithm
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pohlig-Hellman Algorithm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#babystep-giantstep-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Babystep-Giantstep Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pohlig-hellman-algorithm_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pohlig-Hellman Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Solution
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Group dynamics</h1>
+
+<div class="toc">
+<ul>
+<li><a href="#1-puzzle-description">1. Puzzle Description</a></li>
+<li><a href="#2-preliminery">2. Preliminery</a><ul>
+<li><a href="#chinese-reminder-theorem">Chinese Reminder Theorem</a></li>
+<li><a href="#groth16-trusted-setup">Groth16 Trusted Setup</a></li>
+<li><a href="#prime-order-subgroups-and-elliptic-curve-cofactors">Prime Order Subgroups and Elliptic Curve Cofactors</a><ul>
+<li><a href="#_1">例子</a></li>
+</ul>
+</li>
+<li><a href="#pohlig-hellman-algorithm">Pohlig-Hellman Algorithm</a><ul>
+<li><a href="#babystep-giantstep-algorithm">Babystep-Giantstep Algorithm</a></li>
+<li><a href="#pohlig-hellman-algorithm_1">Pohlig-Hellman Algorithm</a></li>
+<li><a href="#_2">优化</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#3-solution">3. Solution</a></li>
+</ul>
+</div>
+<h2 id="1-puzzle-description">1. Puzzle Description<a class="headerlink" href="#1-puzzle-description" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>If it's small, it should not be here</p>
+</blockquote>
+<p>Alice has computed a trusted setup for a Groth16 proof scheme.
+She decided to use a 128-bit long secret, and she swears that she does not know the secret s needed to get this setup.
+The trusted setup is constructed as follows using two additional scalars <span class="arithmatex">\(\alpha\)</span> and <span class="arithmatex">\(\beta\)</span>:
+* <span class="arithmatex">\([s^i] G_1\)</span>  for <span class="arithmatex">\(0 \le i \le 62\)</span>,
+* <span class="arithmatex">\([\alpha s^i] G_1\)</span>  for <span class="arithmatex">\(0 \le  i \le  31\)</span>,
+* <span class="arithmatex">\([\beta s^i] G_1\)</span>  for <span class="arithmatex">\(0 \le  i \le  31\)</span>,
+* <span class="arithmatex">\([s^i] G_2\)</span>  for <span class="arithmatex">\(0 \le  i \le  31\)</span>.</p>
+<h2 id="2-preliminery">2. Preliminery<a class="headerlink" href="#2-preliminery" title="Permanent link">&para;</a></h2>
+<h3 id="chinese-reminder-theorem">Chinese Reminder Theorem<a class="headerlink" href="#chinese-reminder-theorem" title="Permanent link">&para;</a></h3>
+<p>中国剩余定理（CRT）是一个非常经典的求解一元线性同余方程组的算法。</p>
+<p>给定一元线性同余方程组（其中模数两两互质）：</p>
+<div class="arithmatex">\[
+\begin{cases}
+x\equiv a_1\pmod{n_1}\\
+x\equiv a_2\pmod{n_2}\\
+\dots\\
+x\equiv a_k\pmod{n_k}
+\end{cases}
+\]</div>
+<p>算法流程：</p>
+<ol>
+<li>首先计算所有模数乘积 <span class="arithmatex">\(n=n_1 n_2\dots n_k\)</span></li>
+<li>对于第 <span class="arithmatex">\(i\)</span> 个方程:</li>
+</ol>
+<p>a. <span class="arithmatex">\(m_i=\frac{n}{n_i}\)</span></p>
+<p>b. 计算 <span class="arithmatex">\(m_i\)</span> 在模 <span class="arithmatex">\(n_i\)</span> 意义下的逆元 <span class="arithmatex">\(m_i^{-1}\)</span></p>
+<ol>
+<li>方程组的解为： <span class="arithmatex">\(x=\sum_{i=1}^k{a_im_i m_i^{-1}}\pmod{n}\)</span></li>
+</ol>
+<p>这个算法的 intuition 是：让求和的每一项只让其在模 <span class="arithmatex">\(n_i\)</span> 时取 <span class="arithmatex">\(a_i\)</span>，让每一项在模 <span class="arithmatex">\(n_j(j\ne i)\)</span> 时等于 <span class="arithmatex">\(0\)</span>。 <span class="arithmatex">\(m_i m_i^{-1}\)</span> 的意义就是满足了这种 intuition。</p>
+<p>时间复杂度主要是 <span class="arithmatex">\(k\)</span> 次求逆元： <span class="arithmatex">\(O(k\log n)\)</span></p>
+<h3 id="groth16-trusted-setup">Groth16 Trusted Setup<a class="headerlink" href="#groth16-trusted-setup" title="Permanent link">&para;</a></h3>
+<p>Groth16 是一个非常有名的 zkSNARK 协议，以其简短的 proof size 和快速的 verification time （均与电路规模无关）被用于各种小规模电路场景。</p>
+<p>为了实现上述优势，Groth16 需要进行一个 Trusted Setup 来生成一些参数供 Prover 和 Verifier 使用。之所以叫 Trusted ，意思是这些参数中存在一个陷门 trapdoor，这个秘密值不能让任何人知道，否则整个协议将没有任何安全性，恶意的证明者可以为虚假的 claim 伪造证明。因此，一个 bad trusted setup 将会导致一个极不安全的协议。</p>
+<p>Groth16 Trusted Setup 的安全性基于群上的离散对数问题（Discrete Logarithm Problem, DLP），即给定两个群元素 <span class="arithmatex">\((g, g^s)\in \mathbb{G}\)</span>，计算出 <span class="arithmatex">\(s\)</span> 是困难的。本文使用乘法记号 <span class="arithmatex">\(g^s\)</span> 来表示群的运算，题面使用的是加法记号，二者是等价的。</p>
+<p>更具体地，为了支持电路规模为 <span class="arithmatex">\(n\)</span> 的证明， Groth16 Trusted Setup 需要生成 <span class="arithmatex">\((4n-1)\)</span> 个 <span class="arithmatex">\(\mathbb{G}_1\)</span> 群元素，以及 <span class="arithmatex">\(n\)</span> 个 <span class="arithmatex">\(\mathbb{G}_2\)</span> 群元素，具体元素构成如题面所示。其中这两个群分别来自两条曲线的循环子群，满足 Pairing 性质。</p>
+<p>但是，DLP 并不是在任何情况下都是难解决的，它在某些情况下是容易解决的，这就是本题考察的点。我第一反应是这篇 <a href="https://kel.bz/post/pohlig/">blog</a>，介绍了如何求解 smooth integer 阶群的 DLP。</p>
+<h3 id="prime-order-subgroups-and-elliptic-curve-cofactors">Prime Order Subgroups and Elliptic Curve Cofactors<a class="headerlink" href="#prime-order-subgroups-and-elliptic-curve-cofactors" title="Permanent link">&para;</a></h3>
+<p>To make us on the same page, 首先介绍一下有限域上椭圆曲线各个参数的含义。</p>
+<p>有限域上椭圆曲线定义为： <span class="arithmatex">\(E(\mathbb{F}_p): y^2=x^3+ax+b\pmod p\)</span> ，其中 <span class="arithmatex">\(p\)</span> 就是有限域的模数，它定义了有限域 <span class="arithmatex">\(\mathbb{F}_p\)</span> ，而且其他 4 个参数 <span class="arithmatex">\(x, y, a, b\)</span> 均是有限域中的元素。这个有限域我们称之为域（Base Field）。</p>
+<p>把有限域中所有的元素代入 <span class="arithmatex">\(x\)</span>，我们可以得到一个椭圆曲线点坐标集合 <span class="arithmatex">\(\{(x_0, y_0), (x_1, y_1)...\}\)</span>，这个集合构成一个群，群元素满足椭圆曲线上点的加法运算（可以延伸至倍点运算）。由于椭圆曲线上点的加法运算满足交换律，所以这个群是一个<strong>阿贝尔群</strong>（Abelian Group）。我们可以使用 Schoof 算法有效地计算点的个数，也就是这个群的阶。</p>
+<p>一般而言，我们需要找到一个有限域上椭圆曲线这个点集所构成的阿贝尔群满足某些好的性质，这样才能满足构建密码学方案的需求。比如这个群有一个大素阶数的循环子群（Cyclic Subgroup），就是一个很好的性质。通常偏好选择阶为大素数的循环子群，因为这样的选择提供了良好的安全性。素数阶的循环子群意味着离散对数问题（DLP）在该群中更难解决。在这个上下文中，我们挑选的循环子群是素数阶子群（Prime Order Subgroup），而非素数的幂阶子群。</p>
+<p>假设大素数循环子群的阶为 <span class="arithmatex">\(r\)</span> ，它也可以形成一个有限域 <span class="arithmatex">\(\mathbb{F}_r\)</span>，我们称之为标量域（Scalar Field）。</p>
+<blockquote>
+<p>注意：循环群的阶不一定是素数，理论上还有可能循环子群阶为素数的幂，虽然这依然是循环群，但素数的幂作为群的阶不如素数阶那样普遍，主要是因为素数阶提供了更直接的安全性保证。</p>
+</blockquote>
+<p>我们还需要了解什么是 cofactor？我们已经知道有限域上椭圆曲线的点构成一个阿贝尔群，这个群阶我们可以通过 Schoof 算法有效算出。假设群阶为 <span class="arithmatex">\(q\)</span>，根据算术基本定理（Fundamental Theorem of Arithmetic），一个大于 1 的正整数可以表示成若干个质数乘积的形式。考虑这个群的某个阶为 <span class="arithmatex">\(r\)</span> 的子群（显然 <span class="arithmatex">\(r | q\)</span>），有 <span class="arithmatex">\(q = hr\)</span>，这个 h 就被称之为子群的 cofactor。</p>
+<h4 id="_1">例子<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
+<p>Bitcoin使用的椭圆曲线是 secp256k1，它的曲线参数可以在<a href="https://neuromancer.sk/std/secg/secp256k1">这里</a>找到。</p>
+<p>它的 Base field 为 <span class="arithmatex">\(\mathbb{F}_p(p=0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f)\)</span>，Scalar field 为 <span class="arithmatex">\(\mathbb{F}_r(r=0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141)\)</span>，cofactor 为 0x1。这意味着 Base field 上的椭圆曲线 <span class="arithmatex">\(y^2\equiv x^3+7\pmod{p}\)</span>
+ 一共有 <span class="arithmatex">\(r * cofactor\)</span> 个点，并且最大循环子群就是它本身。</p>
+<blockquote>
+<p>有些上下文也会把 base field 记作 <span class="arithmatex">\(\mathbb{F}_q\)</span>，而把 <span class="arithmatex">\(\mathbb{F}_p\)</span> 统一用作表示素数有限域。比如 Arkwork 下 ark-ff 就</p>
+</blockquote>
+<h3 id="pohlig-hellman-algorithm">Pohlig-Hellman Algorithm<a class="headerlink" href="#pohlig-hellman-algorithm" title="Permanent link">&para;</a></h3>
+<p>有了上述概念基础，我们来介绍如何使用 <a href="https://en.wikipedia.org/wiki/Pohlig%E2%80%93Hellman_algorithm">Pohlig-Hellman</a> 算法来攻击 cofactor 较小的循环子群，这种攻击也被称之为 <code>Subgroup Confinement Attacks</code> ，它利用了群阶是 smooth integer 的事实形成了求解 DLP 的攻击优势。</p>
+<p>WLOG，假设生成元为 <span class="arithmatex">\(g\)</span> 的循环群 <span class="arithmatex">\(\langle g\rangle\)</span> 阶为 <span class="arithmatex">\(r=\prod_{i=1}^n p_i^{e_i}\)</span>， <span class="arithmatex">\(p_i\)</span> 是质数. 给定 <span class="arithmatex">\(g, h = g^x\)</span> （其中 <span class="arithmatex">\(x\in Z_r\)</span>），我们希望计算 <span class="arithmatex">\(x\)</span> 的值。</p>
+<h4 id="babystep-giantstep-algorithm">Babystep-Giantstep Algorithm<a class="headerlink" href="#babystep-giantstep-algorithm" title="Permanent link">&para;</a></h4>
+<p>大步小步算法是通用的求解离散对数的方法，无前置要求。它基于  <code>meet-in-the-middle</code> 思想。</p>
+<p>给定 <span class="arithmatex">\(g^x=h\)</span>，选取一个大小接近于 <span class="arithmatex">\(\sqrt{r}\)</span> 的数 <span class="arithmatex">\(T\)</span>，则 <span class="arithmatex">\(x\)</span> 可以写成 <span class="arithmatex">\(x=aT+b\)</span>， <span class="arithmatex">\(a,b\)</span>未知 <span class="arithmatex">\((a,b \le T)\)</span>。 </p>
+<p>那么原式可以写作 <span class="arithmatex">\(g^{aT+b}=h\)</span>，即 <span class="arithmatex">\(g^{aT}=hg^{-b}\)</span>。</p>
+<p>注意到等式两边分别需要枚举 <span class="arithmatex">\(a,b\)</span> 次。那么爆破所有可能的 <span class="arithmatex">\(a,b\)</span>，寻找碰撞，进而得到 <span class="arithmatex">\(aT+b=x\)</span>。</p>
+<p>这个算法的时间复杂度为 <span class="arithmatex">\(O(\sqrt{r})\)</span>。</p>
+<h4 id="pohlig-hellman-algorithm_1">Pohlig-Hellman Algorithm<a class="headerlink" href="#pohlig-hellman-algorithm_1" title="Permanent link">&para;</a></h4>
+<p>有没有更高效的算法呢？有！</p>
+<p>我们要求 <span class="arithmatex">\(x\pmod r\)</span>，考虑中国剩余定理 CRT，如果我们知道了 <span class="arithmatex">\(r\)</span> 的质因数分解 <span class="arithmatex">\(r=\prod_{i=1}^n p_i^{e_i}\)</span>，分别计算出 <span class="arithmatex">\(x\pmod{p_i^{e_i}}\)</span> ，那么我们就可以快速求出 <span class="arithmatex">\(x\pmod r\)</span>.</p>
+<p>于是问题规约成了计算 <span class="arithmatex">\(a_i=x\pmod{p_i^{e_i}}\)</span>，简记 <span class="arithmatex">\(P_i=p_i^{e_i}\)</span>，则有： <span class="arithmatex">\(x=k_i P_i + a_i\)</span></p>
+<p>那么如何计算 <span class="arithmatex">\(a_i\)</span>呢？注意到：</p>
+<div class="arithmatex">\[
+\begin{aligned}
+h^{r/P_i}&amp;=g^{(r/P_i)x} \\
+&amp;=g^{r(k_i P_i + a_i)/P_i}\\
+&amp;=g^{ra_i/P_i}\\
+&amp;=(g^{r/P_i})^{a_i}
+\end{aligned}
+\]</div>
+<p>注意到等式左边 <span class="arithmatex">\(h'=h^{r/P_i}\)</span> 和右边 <span class="arithmatex">\(g'=g^{r/P_i}\)</span> 都可以直接计算。于是问题转变成了一个新的离散对数问题 <span class="arithmatex">\(h'=g'^{a_i}\)</span>。</p>
+<p>于是，我们可以把原先的 <span class="arithmatex">\(h=g^x\)</span> 问题规约到求解 <span class="arithmatex">\(n\)</span> 个 <span class="arithmatex">\(h'=g'^{a_i}\)</span> 问题上。注意新的离散对数问题的 <span class="arithmatex">\(g'\)</span> 的阶为 <span class="arithmatex">\(P_i\)</span> ，不再是 <span class="arithmatex">\(r\)</span>。</p>
+<p>这个算法时间复杂度为； <span class="arithmatex">\(O(\sum_{i=1}^n{ \sqrt{p_i^{e_i}}+\log r})\)</span></p>
+<p>上面的式子有个严重的问题，如果 <span class="arithmatex">\(r=p^e\)</span> 那相当于优化都没做，时间复杂度为 <span class="arithmatex">\(O(\sqrt{p^e}+\log r)\)</span> ，跟大步小步法一致，仍然非常耗时。</p>
+<p>但是考虑到 <span class="arithmatex">\(g'\)</span> 的阶是素数的幂的情况，其实整个算法还可以从 <span class="arithmatex">\(O(\sum_{i=1}^n{ \sqrt{p_i^{e_i}}+\log r})\)</span> 优化到 <span class="arithmatex">\(O(\sum_{i=1}^n{e_i \sqrt{p_i}+\log r})\)</span>。</p>
+<h4 id="_2">优化<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
+<p>Main observation 是新的离散对数问题的元素的阶是 <span class="arithmatex">\(p_i^{e_i}\)</span>，也就是一个质数的幂。对于这种情况，有一个算法可以把求解离散对数问题的复杂度从 <span class="arithmatex">\(O(\sqrt{p_i^{e_i}})\)</span>优化到 <span class="arithmatex">\(O(e^i\sqrt{p_i})\)</span>。</p>
+<p>WLOG，给定 <span class="arithmatex">\(g, h=g^x\)</span> ，且 <span class="arithmatex">\(g\)</span> 的阶为 <span class="arithmatex">\(p^e\)</span>。我们首先把 <span class="arithmatex">\(x\)</span> 写作 <span class="arithmatex">\(x=x_0 + x_1p+ x_2p^2 + \dots + x_{e-1}p^{e-1}\)</span>。考虑 <span class="arithmatex">\(h^{ p^{e-1} }\)</span>:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+h^{ q^{e-1} }&amp;=( g^x )^{ p^{e-1} }\\
+&amp;=g^{(x_0 + x_1p+ x_2p^2 + \dots + x_{e-1}p^{e-1})p^{e-1}}\\
+&amp;=g^{ x_0p^{e-1}}\\
+&amp;=(g^{ p^{e-1}})^{ x_0}
+\end{aligned}
+\]</div>
+<p>等式左边 <span class="arithmatex">\(h^{ q^{e-1} }\)</span> 和右边 <span class="arithmatex">\(g^{ p^{e-1}}\)</span> 都可以求出来，于是离散对数问题规约到一个更小的问题上，此时 <span class="arithmatex">\(g^{ p^{e-1}}\)</span> 的阶是 <span class="arithmatex">\(p\)</span> ，那么我们可以利用小步大步法在 <span class="arithmatex">\(O(\sqrt{p})\)</span> 时间内计算得到 <span class="arithmatex">\(x_0\)</span>。同理根据 <span class="arithmatex">\(h^{e-2}\)</span> 求 <span class="arithmatex">\(x_1\)</span>，以此类推。</p>
+<p>于是这个离散对数问题的求解被优化到 <span class="arithmatex">\(O(e\sqrt{p})\)</span>，整个 Pohlig-Hellman 的时间复杂度被优化到 <span class="arithmatex">\(O(\sum_{i=1}^n{e_i \sqrt{p_i}+\log r})\)</span>。</p>
+<p>SageMath 为我们封装了以上两种求离散对数的函数：</p>
+<div class="highlight"><pre><span></span><code><span class="n">R</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">941</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">390</span><span class="p">)</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">627</span><span class="p">)</span>
+
+<span class="c1"># 小步大步法</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>  <span class="c1"># 347</span>
+<span class="k">assert</span> <span class="n">g</span><span class="o">**</span><span class="n">x</span> <span class="o">==</span> <span class="n">h</span>
+
+
+<span class="c1"># Pohlig-Hellman 法</span>
+<span class="c1"># 默认群运算是乘法，如果是加法，则需要指定参数 operation=&#39;+&#39;</span>
+<span class="c1"># 还可以指定生成元的阶 order=xx，可以优化效率</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">discrete_log</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>  <span class="c1"># 347</span>
+<span class="k">assert</span> <span class="n">g</span><span class="o">**</span><span class="n">x</span> <span class="o">==</span> <span class="n">h</span>
+</code></pre></div>
+<h2 id="3-solution">3. Solution<a class="headerlink" href="#3-solution" title="Permanent link">&para;</a></h2>
+<p>从上述背景知识可以知道，对于一个群阶为 <span class="arithmatex">\(n\)</span> 的阿贝尔群，如果群阶不能被分解成若干个小素数的幂的乘积形式，那么这个阿贝尔群的离散对数问题是困难的，因为只能使用小步大步法计算；如果群阶可以被分解成若干小素数的幂的成绩形式，那么这个阿贝尔群的离散对数问题可以使用 Pohlig-Hellman 算法有效求出。</p>
+<p>题目给定的椭圆曲线是 BLS12-381 ，它的安全参数信息在<a href="https://neuromancer.sk/std/bls/BLS12-381">这里</a>。</p>
+<p>初步分析，如果要求出陷门信息 <span class="arithmatex">\(s\)</span> ，第一反应就是求解离散对数问题。那么首先看 Trusted Setup 是否使用安全的循环子群，如果正确使用，那么应该满足 <span class="arithmatex">\(( g_1^s )^r=1\)</span> .</p>
+<p>使用 SageMath：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. 检查是否在安全循环子群中</span>
+<span class="n">st0</span> <span class="o">=</span> <span class="n">E</span><span class="p">(</span><span class="mh">0x0F99F411A5F6C484EC5CAD7B9F9C0F01A3D2BB73759BB95567F1FE4910331D32B95ED87E36681230273C9A6677BE3A69</span><span class="p">,</span> <span class="mh">0x12978C5E13A226B039CE22A0F4961D329747F0B78350988DAB4C1263455C826418A667CA97AC55576228FC7AA77D33E5</span><span class="p">)</span>
+<span class="c1"># expected: (0: 1: 0)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">st0</span> <span class="o">*</span> <span class="mh">0x73EDA753299D7D483339D80809A1D80553BDA402FFFE5BFEFFFFFFFF00000001</span><span class="p">)</span>
+</code></pre></div>
+<p>输出结果不是无穷远点，所以题目没有使用安全的循环子群。打印实际的子群阶及其分解因子：</p>
+<p><div class="highlight"><pre><span></span><code><span class="c1"># 2. 打印实际 order并 factor</span>
+<span class="n">order</span> <span class="o">=</span> <span class="n">st0</span><span class="o">.</span><span class="n">order</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">factor</span><span class="p">(</span><span class="n">order</span><span class="p">))</span>
+</code></pre></div>
+结果:</p>
+<div class="highlight"><pre><span></span><code>3 * 11 * 10177 * 859267 * 52437899 * 52435875175126190479447740508185965837690552500527637822603658699938581184513
+</code></pre></div>
+<p>发现实际子群 <span class="arithmatex">\(G_1\)</span> 的阶是由 cofactor 中的因子和大素数因子一起组成的。为了满足 pairing， <span class="arithmatex">\(G_2\)</span> 的阶与 <span class="arithmatex">\(G_1\)</span> 的阶必须保持一致。</p>
+<p>题目设计者如此操作之后，看似这两个拼凑出来的循环子群的阶仍然是大素数，但不再安全。攻击者可以轻易地把这些点映射到不安全的小素数子群中。记拼凑出来的循环子群 <span class="arithmatex">\(G_1\)</span>的生成元为 <span class="arithmatex">\(g_1\)</span>，那么 <span class="arithmatex">\(g_1^{r_1}\)</span> 这个元素所派生出来的循环子群的阶就变为 <span class="arithmatex">\(3 * 11 * 10177 * 859267 * 52437899\)</span>。</p>
+<p>在这个新的循环子群里，由于群阶没有大素数，我们可以使用 Pohlig-Hellman 算法高效的求出陷门 <span class="arithmatex">\(s\)</span> 模各个因子的值，进而使用 CRT 恢复出 <span class="arithmatex">\(s\)</span>。</p>
+<p>使用 <span class="arithmatex">\(g_1\)</span> 来恢复 <span class="arithmatex">\(s\pmod{3 * 11 * 10177 * 859267 * 52437899}\)</span>：</p>
+<div class="highlight"><pre><span></span><code><span class="n">s_n1</span> <span class="o">=</span> <span class="n">discrete_log</span><span class="p">(</span><span class="n">st11</span> <span class="o">*</span> <span class="mi">52435875175126190479447740508185965837690552500527637822603658699938581184513</span><span class="p">,</span> <span class="n">st10</span> <span class="o">*</span> <span class="mi">52435875175126190479447740508185965837690552500527637822603658699938581184513</span><span class="p">,</span> <span class="n">operation</span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="c1"># output: 2335387132884273659</span>
+</code></pre></div>
+<p>处理 <span class="arithmatex">\(g_2\)</span> 时需要特别注意：由于这个二次扩域的大小几乎是 <span class="arithmatex">\(g_1\)</span> 阶的平方，因此这个群阶我们没办法直接通过 <code>order()</code> 方法计算。但是我们知道 <span class="arithmatex">\(G_2\)</span> 的阶必须与 <span class="arithmatex">\(G_1\)</span> 保持一致，这是一个重要信息。 <span class="arithmatex">\(G_2\)</span> 的阶无非也是 cofactor 中的几个因子拼凑，我们逐个尝试即可。最终尝试得到阶为 <code>13 * 23 * 2713 * 11953 * 262069 * 402096035359507321594726366720466575392706800671181159425656785868777272553337714697862511267018014931937703598282857976535744623203249 * 52435875175126190479447740508185965837690552500527637822603658699938581184513</code>. 使用同样的技巧消除两个大质因子：</p>
+<div class="highlight"><pre><span></span><code><span class="n">s_n2</span> <span class="o">=</span> <span class="n">discrete_log</span><span class="p">(</span><span class="n">st21</span> <span class="o">*</span> <span class="mi">402096035359507321594726366720466575392706800671181159425656785868777272553337714697862511267018014931937703598282857976535744623203249</span> <span class="o">*</span> <span class="mi">52435875175126190479447740508185965837690552500527637822603658699938581184513</span> <span class="o">*</span> <span class="mi">13</span> <span class="o">*</span> <span class="mi">23</span><span class="p">,</span> <span class="n">st20</span> <span class="o">*</span> <span class="mi">402096035359507321594726366720466575392706800671181159425656785868777272553337714697862511267018014931937703598282857976535744623203249</span> <span class="o">*</span> <span class="mi">52435875175126190479447740508185965837690552500527637822603658699938581184513</span> <span class="o">*</span> <span class="mi">13</span> <span class="o">*</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">13</span> <span class="o">*</span> <span class="mi">23</span> <span class="o">*</span> <span class="mi">2713</span> <span class="o">*</span> <span class="mi">11953</span> <span class="o">*</span> <span class="mi">262069</span><span class="p">,</span> <span class="n">operation</span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="c1"># output: 6942769366567</span>
+</code></pre></div>
+<p>再使用一遍 crt 结合起来尝试恢复 s：</p>
+<div class="highlight"><pre><span></span><code><span class="n">s_tag</span> <span class="o">=</span> <span class="n">crt</span><span class="p">([</span><span class="n">s_n1</span><span class="p">,</span> <span class="n">s_n2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="mi">11</span> <span class="o">*</span> <span class="mi">10177</span> <span class="o">*</span> <span class="mi">859267</span> <span class="o">*</span> <span class="mi">52437899</span><span class="p">,</span> <span class="mi">2713</span> <span class="o">*</span> <span class="mi">11953</span> <span class="o">*</span> <span class="mi">262069</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;s_tag: &quot;</span><span class="p">,</span> <span class="n">s_tag</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s_tag</span><span class="o">.</span><span class="n">bits</span><span class="p">()))</span>
+<span class="c1"># s_tag:  62308043734996521086909071585406</span>
+<span class="c1"># 106</span>
+</code></pre></div>
+<p>结果还不是 128 bit，最多还差 <span class="arithmatex">\(2^{22}\)</span> 次方。这就只能通过爆破地方式尝试补齐了，最终的结果是：<code>114939083266787167213538091034071020048</code>。</p>
+<p>Done.</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="最后更新">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime" title="2025年11月16日 22:55:41 CST">2025年11月16日 22:55:41</span>
+  </span>
+
+    
+    
+    
+      
+  
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="贡献者">
+      
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"/></svg>
+      
+    </span>
+    <nav>
+      
+        <a href="mailto:xor0v0@163.com">timimm</a>
+    </nav>
+  </span>
+
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 - 2030 Tim
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.top", "navigation.tracking", "search.suggest", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      
+    
+  </body>
+</html>

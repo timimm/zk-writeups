@@ -1,0 +1,1097 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="2023 | ParadigmCTF | Crypto">
+      
+      
+        <meta name="author" content="Tim">
+      
+      
+        <link rel="canonical" href="https://timimm.github.io/zk-writeups/crypto/oven/">
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../lets-hash-it-out/lets-hash-it-out/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Crypto - Oven - ZK Puzzle Writeups</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap">
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap">
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-puzzle-description" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="ZK Puzzle Writeups" class="md-header__button md-logo" aria-label="ZK Puzzle Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3 1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ZK Puzzle Writeups
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Crypto - Oven
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/timimm/zk-writeups" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    timimm/zk-writeups
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+  简介
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Crypto
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ZK Puzzle Writeups" class="md-nav__button md-logo" aria-label="ZK Puzzle Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3 1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17z"/></svg>
+
+    </a>
+    ZK Puzzle Writeups
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/timimm/zk-writeups" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    timimm/zk-writeups
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    简介
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    简介
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crypto
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Crypto
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Oven
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Oven
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-puzzle-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Puzzle Description
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        小技巧
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-exp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. EXP
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lets-hash-it-out/lets-hash-it-out/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Let's hash it out
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../safeescrow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SafeEscrow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../group-dynamics/group-dynamics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Group dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2%2B2%3D5/two_plus_two/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2+2=5
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../zkCTF/zkCTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    zkCTF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-puzzle-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Puzzle Description
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        小技巧
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-exp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. EXP
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Oven</h1>
+
+<div class="toc">
+<ul>
+<li><a href="#1-puzzle-description">1. Puzzle Description</a></li>
+<li><a href="#2-analysis">2. Analysis</a><ul>
+<li><a href="#_1">小技巧</a></li>
+</ul>
+</li>
+<li><a href="#3-exp">3. EXP</a></li>
+</ul>
+</div>
+<h2 id="1-puzzle-description">1. Puzzle Description<a class="headerlink" href="#1-puzzle-description" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>题目地址： <a href="https://github.com/paradigmxyz/paradigm-ctf-2023/tree/main/oven">https://github.com/paradigmxyz/paradigm-ctf-2023/tree/main/oven</a></p>
+</blockquote>
+<p>源码如下：</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Crypto.Util.number</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+
+<span class="n">FLAG</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;FLAG&quot;</span><span class="p">,</span> <span class="s2">&quot;PCTF</span><span class="si">{flag}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+<span class="n">FLAG</span> <span class="o">=</span> <span class="n">bytes_to_long</span><span class="p">(</span><span class="n">FLAG</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">assert</span> <span class="n">FLAG</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">384</span>
+
+<span class="n">BITS</span> <span class="o">=</span> <span class="mi">1024</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">xor</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">bytes</span><span class="p">([</span><span class="n">i</span> <span class="o">^</span> <span class="n">j</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)])</span>
+
+
+<span class="c1"># This doesn&#39;t really matter right???</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">custom_hash</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="mi">16</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">//</span> <span class="mi">16</span><span class="p">):</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">xor</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">16</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha512</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span> <span class="o">+</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+
+    <span class="n">value</span> <span class="o">=</span> <span class="n">bytes_to_long</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fiat_shamir</span><span class="p">():</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">getPrime</span><span class="p">(</span><span class="n">BITS</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">FLAG</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+    <span class="n">v</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">512</span><span class="p">)</span>
+
+    <span class="n">t</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">custom_hash</span><span class="p">(</span><span class="n">long_to_bytes</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">+</span> <span class="n">long_to_bytes</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="n">long_to_bytes</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="p">(</span><span class="n">v</span> <span class="o">-</span> <span class="n">c</span> <span class="o">*</span> <span class="n">FLAG</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">t</span> <span class="o">==</span> <span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="nb">pow</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span> <span class="o">%</span> <span class="n">p</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">r</span><span class="p">),</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;[1] Get a random signature</span><span class="se">\n</span><span class="s2">[2] Exit</span><span class="se">\n</span><span class="s2">Choice: &quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;1&quot;</span> <span class="ow">in</span> <span class="n">resp</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">r</span><span class="p">),</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">fiat_shamir</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;t = </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="se">\n</span><span class="s2">r = </span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;p = </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="se">\n</span><span class="s2">g = </span><span class="si">{</span><span class="n">g</span><span class="si">}</span><span class="se">\n</span><span class="s2">y = </span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="s2">&quot;2&quot;</span> <span class="ow">in</span> <span class="n">resp</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bye!&quot;</span><span class="p">)</span>
+        <span class="n">exit</span><span class="p">()</span>
+</code></pre></div>
+<p>代码功能：用户可以获取 FLAG 随机签名，生成随机签名的逻辑就在 <code>fiat-shamir</code> 函数里。使用了自定义的hash函数 <code>custom_hash</code> 来生成哈希，这个函数分别调用了四种不同的hash算法，因此想要破解其随机性目前是不可能的。</p>
+<p><code>Fiat Shamir</code> 变换是密码学中非常重要的工具，它的核心在于使用hash算法来生成随机数，为密码协议添加了随机性。FS变换一个典型应用就是为零知识证明系统系统引入了非交互性，进而构造出 snark 等协议。</p>
+<p>从上述源码，我们可获得的信息有 <code>t, r, p, g, y</code> ，其实 c 是可以求出，即使用题目条件中的 <code>custom_hash</code> 函数。那么可能发生的漏洞点集中在 <code>fiat_shamir</code>  函数中，它是对 FLAG 进行签名的函数功能部分，重点关注： <code>r = (v - c * FLAG) % (p - 1)</code> 。对于这个式子，目前我们可以获得的信息有： <code>r, c, p</code> 均是已知值，且 FLAG 的位数已经确定： <code>assert FLAG.bit_length() &lt; 384</code> 。 可以联想到 Dan Boneh 在 1996 年提出的 <a href="https://crypto.stanford.edu/~dabo/pubs/abstracts/dhmsb.html">HNP</a> 问题（模数可变），可使用标准的格算法进行攻击。更加详细基于格攻击的密码分析请参考<a href="https://tpm.fail/tpmfail.pdf">论文</a>。</p>
+<h2 id="2-analysis">2. Analysis<a class="headerlink" href="#2-analysis" title="Permanent link">&para;</a></h2>
+<p>问题就出在代码： <span class="arithmatex">\(r = (v - c * FLAG) % (p - 1)\)</span> 上，由于 r，c，p均是已知值，于是：</p>
+<ol>
+<li>
+<p>首先对上述式子进行数学变形： <span class="arithmatex">\(r-v+c*FLAG=0\mod (p-1)\)</span> ，只有 v 和 FLAG 是未知数。</p>
+</li>
+<li>
+<p>我们可以根据上述式子构建 Lattice: </p>
+</li>
+</ol>
+<div class="arithmatex">\[
+M = \begin{pmatrix}(q_1-1)&amp;&amp;&amp;&amp;\\ &amp;(q_2-1)&amp;&amp;&amp;\\ &amp;&amp;(q_3-1)&amp;&amp;\\ c_1&amp;c_2&amp;c_3&amp;1&amp;\\ r_1&amp;r_2&amp;r_3&amp;0&amp;K\\ \end{pmatrix}
+\]</div>
+<p>其中：</p>
+<ul>
+<li>K 是 <code>FLAG</code> 的一个上界；</li>
+<li>
+<p>空白处均为 0 。</p>
+</li>
+<li>
+<p>根据 Babai 的CVP解决算法，一定存在一个解向量 <span class="arithmatex">\(\pmb{j}=(l_1,l_2,l_3,FLAG,1)\)</span> ，使得 <span class="arithmatex">\(\pmb{j}M=\pmb{j_k}\)</span> 成立。</p>
+</li>
+<li>
+<p>注意到 <span class="arithmatex">\(\pmb{j_k}\)</span> 在格中是一个短向量，于是我们可以采用 LLL 算法在多项式时间内找到这个短向量。注意，短向量的每一个元素用 64bit 可以表示，于是确定上界 <span class="arithmatex">\(K=2^{64}\)</span> 。 </p>
+</li>
+</ul>
+<h4 id="_1">小技巧<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
+<p>这里解释一下数据量的问题，如何知道需要多少组数据可以恢复出 FLAG 呢？这个需要使用到 gaussian heuristic 估计最短向量长度，要求的目标向量范数小于这个长度即可。【但是由于这是CTF比赛背景，所以一般情况下可以先用三四五组数据，如果不行，在用上述方法精确计算。这里我先收集了5组数据备用，实际上用了3组数据，就可解出FLAG】。</p>
+<h2 id="3-exp">3. EXP<a class="headerlink" href="#3-exp" title="Permanent link">&para;</a></h2>
+<p>完整EXP（需要sage-python环境）：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">Crypto.Util.number</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">xor</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">bytes</span><span class="p">([</span><span class="n">i</span> <span class="o">^^</span> <span class="n">j</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)])</span> <span class="o">//</span> <span class="n">注意你的sage环境的异或操作运算符</span><span class="err">，</span><span class="n">这个sage10</span><span class="mf">.0</span><span class="n">版本</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">custom_hash</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="mi">16</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">//</span> <span class="mi">16</span><span class="p">):</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">xor</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">16</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha512</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span> <span class="o">+</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+
+    <span class="n">value</span> <span class="o">=</span> <span class="n">bytes_to_long</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">value</span>
+
+
+
+<span class="n">g</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="n">t</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">5</span> <span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">5</span>
+<span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">77203516334611379622052884088061339907818193440975523438325956774518601252973654146535129884349539724229562993644509567711307331031087898034347437358013492439542334272757402388064753335866738748958633246857368058563448192261648964749496750146315450540579452655462143813022469489449782882109182150142188348915</span>
+<span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">116220687218790216091346463439819557695309512176282372943331613053767874084111192169275378671194392846117055362014832383093646731110903547936340541580638231783076185430700045752799252596702505486227877656990705143138976716233681199944248043915239678537679463030334043412573684866623347545004904612417007327217</span>
+<span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">120199526136097511651530856988060166616679725925744594620901500430819054365226668422844742178771316732438545888088210068701212930988908604238682153307940417480817112540019257024703372145496636861112290091005527647339212358159274475077103689996624113678044891963676612334769162753166782062809526104431258739517</span>
+<span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">113120257926989954605307518460817169666869094087243249194566086300779837721481071230484420555504633839932263287201776945834030877253212748181186108770595676114564711457140738635967367144272960236148346810327070118837330648022676963528356209004524421455348155068637534190736042536625876773755044593606026293621</span>
+
+<span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">41870694301936832255997763505666386906032641226067235004722895066736677752643938706563985367861597477876358530714740119529535551345537670465925209944735777464498665457291484991606280197421907773811941255514802343059520166452091324746732103649911088736843268706303230993742963740287185306251052313964374872878</span>
+<span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">12006544761341621619143613218949584457040818188588282396732221317912350712975184254483346994199077889478797005980544401923303196850089656891130607887735812677733676744158835380723268515678724429529904080449565289532493612340517128773817940478185157405384294596975266141639161297056291778600404606940053392754</span>
+<span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">144976418899543143198454834264506179459614866666312385853989423989111679486891620786778481577472101748200328617607483446519049911023390427543308348494008425688855119367843479385647790189753163858970088620586505610840306212549243890107847423807556106192434514110736278569625282073529181653986405771513594134987</span>
+<span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">115167386542298909971939136044531943159982371048242494889745996527683250097061534781946312891817534916886291355204474301571862159042350976750824212346443402817552375266223638549309886922860921533308382456941718605370216473858986207878047206914813902333192745354148659984602740644345120423788258359941122554440</span>
+
+<span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">87583398382601313926735945950364130572816213989909728661491063393166341618362097121819023078210854251839415225428442334046015192711593400640556960974162962105001700930842075200923675422451049033428478754684678493480503204152097382431043129863362081278994409790477935899740897031656629902670114002180266872266</span>
+<span class="n">r</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">102934065416140965550261549535302192284582871606378190882003659362832329206469482926448881926648454509204767788745574969527319053553977362277660636749471357711849435384231867496681956889560719871615670691536165668156919285052370364456208767031233707532145718791283351837119192545712583721765194876277656314501</span>
+<span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">148550372281025138704553107737801144273208690400094973764375300381759456124146034135721454543469874579375457504983315183916592877731262163382903701414433532933994780412246010260680217160047355295328211970740422311833479381733781665221952277321615395653804905426059251551309558237245071919868160643681548296643</span>
+<span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">140198181685722792932050421128846820269664976993249152496309458637445728558822919357043381776927596511506695168631000635135982453895569864162220417018046902591680662347467431250148020323787868422484882819040766008876291088199475630773774170507517261352416744218315033367149608507518388781373699289693595499544</span>
+
+<span class="n">t</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">84522638373733120165414722745998118253921972157096808350845007682435315263298662575419222718886673005893479175168776223733676055437884841441137160382376309254755315837431162807596684224207280410300146602535834124511928134257346386899792746556440632650091111389088724071203568000188430042064500145669267026805</span>
+<span class="n">r</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">18194520459417696159241442307764982202112775710358263541565999857475375951014745782344717997571109484480490257320469370655821185611675102820226656623202547826938945675557174044055104570245311622199906030109190773202049867448625926033119474090713737736579814394048548084259404911639299693897437586858871472420</span>
+<span class="n">p</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">103592121279236435866010649601463899558315038309765463516665073413464806869884601040096405354399740035138081866812671953467986059509640644754973422603659825874707510675199511411437487386173194105311776020901134014680450244319046258962912483163270496586124101308664731409973532774829535980996775736651508448187</span>
+<span class="n">y</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">14795900031448786771559087453548388682769488350377145090464794455644462363656204398769939585810191748312766604278524960492756615478207654208905403516432929452543777164921589629460212814049479518397521600744701463005793924336243982001830978693343863219168046923285752069874971698699611717027496799587761203398</span>
+
+<span class="n">t</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">137831113158715069584199906447354477289195801883097400523644937444161950367086728510388467524069532778534704803863447302183665431906725284462350375136938902398115607751357373983532375894744842377064414618294084293556345908653608825144019924463160996581138334794345538184522294219836499291245958693984828705682</span>
+<span class="n">r</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3997479613798995088324714249284251759517244566415954213469045459939167234231804927756343425727094668124791771030709612850292188541459113635924389128360073088700133564458353848851347410209029075825332791761713207287049093830610503236793718093861017715600469118069736180200062407135030791797264421955154056362</span>
+<span class="n">p</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">138872772594377036406739890812487312629206229880091799534033353266413752242871671695030657233827552372256865312690361457743622953282647882392520626248323032818493170021525093526571072858177665184977821075559705014261503440906447428819858532553737164369106583570452357928945241596555378143414688075425304805029</span>
+<span class="n">y</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">26528279589882510502916765470759890048295757018825608100058824483278181810141819962488106009190787416456734047325734614749916264837565765983213768504298640943869226245566784325431289650031372028094050672872660334951958006567067601586551947694563576820491204290496425885685101313332190690230962899252834723225</span>
+
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">C</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span>
+    <span class="n">C</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">custom_hash</span><span class="p">(</span><span class="n">long_to_bytes</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">+</span> <span class="n">long_to_bytes</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="n">long_to_bytes</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+    <span class="n">R</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="n">C</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="c1"># print(C)</span>
+<span class="c1"># print(R)</span>
+
+<span class="n">M</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">M</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">M</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">M</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">M</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">M</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span>  <span class="mi">1</span>
+<span class="n">M</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">^</span><span class="mi">64</span>
+<span class="n">M</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span><span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">v</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">LLL</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">flag</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">%</span> <span class="n">p</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">long_to_bytes</span><span class="p">(</span><span class="n">flag</span><span class="p">))</span>
+</code></pre></div>
+<p>最终的结果为： <code>pctf{F1at_shAm1R_HNP_g0_Cr4ZyyYy_m0rE_1iK3_f4T_Sh4mIr}</code></p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="最后更新">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime" title="2025年11月16日 22:55:41 CST">2025年11月16日 22:55:41</span>
+  </span>
+
+    
+    
+    
+      
+  
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="贡献者">
+      
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"/></svg>
+      
+    </span>
+    <nav>
+      
+        <a href="mailto:xor0v0@163.com">timimm</a>
+    </nav>
+  </span>
+
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 - 2030 Tim
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.tracking", "search.suggest", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      
+    
+  </body>
+</html>
